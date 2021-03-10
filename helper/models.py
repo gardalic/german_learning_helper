@@ -3,16 +3,13 @@ from sqlalchemy import func
 
 
 class Lesson(db.Model):
-    """
-    Represents the lesson from which the entry came. None type sequence_id and
-    lesson_id in case of manual entries.
-    """
+    """ Represents the lesson from which the entry came. """
 
-    sequence_id = db.Column(db.Integer, default=0)
+    sequence_id = db.Column(db.Integer)
     # this could be an int, see later
     lesson_id = db.Column(db.String(16), primary_key=True)
-    title = db.Column(db.String(128))
     link = db.Column(db.String(128))
+    title = db.Column(db.String(128))
     subtitle = db.Column(db.String(128))
     description = db.Column(db.String(512))
 
@@ -23,7 +20,7 @@ class Lesson(db.Model):
 
 
 class Entry(db.Model):
-    """ Represents a vocabulary entry (phrase, verb, adjective, other). """
+    """ Represents a vocabulary entry (phrase, noun, other). """
 
     id = db.Column(db.Integer, primary_key=True)
     entry = db.Column(db.String(512), index=True)
@@ -37,6 +34,9 @@ class Entry(db.Model):
 
     def __repr__(self) -> str:
         return f"<Entry {self.entry}>"
+
+    def __str__(self) -> str:
+        return f"{self.entry}"
 
     def get_entries(
         self,
@@ -58,3 +58,15 @@ class Entry(db.Model):
             self.lesson_id <= end,
             self.e_type.in_(e_type),
         )
+        return entry_list
+
+    def format_entry(self, entry):
+        """ Returns formatted entry for display. Input should be an Entry object. """
+        if isinstance(entry, Entry):
+            if entry.e_type == "noun":
+                return {
+                    "entry": f"{entry.article} {entry.entry}, die {entry.plural}",
+                    "translation": entry.translation,
+                }
+            return {"entry": entry, "translation": entry.translation}
+        raise TypeError("Not an <Entry> object")

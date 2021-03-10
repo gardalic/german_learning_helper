@@ -8,7 +8,8 @@ class Config(object):
 
     # use it later when auth is implemented
     SECRET_KEY = os.environ.get("SECRET_KEY") or "my-little-secret-key"
+    # flask migrate doesn't seem to work using f-strings, learned the hard way (port issues)
     SQLALCHEMY_DATABASE_URI = (
-        os.environ.get("DATABASE_URL") or f"sqlite://{os.path.join(basedir, 'app.db')}"
+        os.environ.get("DATABASE_URL") or "sqlite:///" + os.path.join(basedir, 'g_helper.db')
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
