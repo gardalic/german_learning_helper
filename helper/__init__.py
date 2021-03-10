@@ -20,3 +20,5 @@ def create_app(config_class=Config):
     app.register_blueprint(vocabulary_bp, url_prefix="/vocab")
 
     return app
+
+from helper import models
