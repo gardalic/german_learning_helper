@@ -1,4 +1,19 @@
 {% extends "base.html" %}
 {% block app_content %}
-<h1>Placeholder for Dictionary</h1>
+<h1>Dictionary</h1>
+<hr>
+<table>
+    <tr>
+        <th style="text-align: left;">Entry</th>
+        <th style="text-align: left;">Translation</th>
+        <th style="text-align: left;">Base (nouns only)</th>
+    </tr>
+    {% for entry in entries %}
+    <tr>
+        <td>{{ entry["entry"] }}</td>
+        <td>{{ entry["translation"] }}</td>
+        <td>{{ entry["base"] }}</td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}

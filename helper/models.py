@@ -43,7 +43,7 @@ class Entry(db.Model):
         lesson_start=None,
         lesson_end=None,
         e_type=["phrase", "misc", "noun"],
-        rand=False,
+        lst=True,
     ) -> list:  
         """ Returns a list of entries, not sorted. Can be limited by session or type. """
 
@@ -60,13 +60,13 @@ class Entry(db.Model):
         ).all()
         return entry_list
 
-    def format_entry(self, entry) -> dict:
+    def format_entry(self) -> dict:
         """ Returns formatted entry for display. Input should be an Entry object. """
-        if isinstance(entry, Entry):
-            if entry.e_type == "noun":
+        if isinstance(self, Entry):
+            if self.e_type == "noun":
                 return {
-                    "entry": f"{entry.article} {entry.entry}, die {entry.plural}",
-                    "translation": entry.translation,
+                    "entry": f"{self.article} {self.entry}, die {self.plural}",
+                    "translation": self.translation, "base": self.entry
                 }
-            return {"entry": entry, "translation": entry.translation}
+            return {"entry": self, "translation": self.translation, "base": None}
         raise TypeError("Not an <Entry> object")
