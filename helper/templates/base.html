@@ -1,3 +1,20 @@
-<h1>Placeholder</h1>
-{% block app_content %}
-{% endblock %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    {% block title %}
+    <title>
+        {% if title %}German Learning Helper - {{ title }}
+        {% else %}German Learning Helper
+        {% endif %}
+    </title>
+    {% endblock %}
+</head>
+
+<body>
+    {% block app_content %}
+    {% endblock %}
+</body>
+
+</html>

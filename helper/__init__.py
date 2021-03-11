@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 migrate = Migrate()
 
+
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
@@ -17,8 +18,9 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
 
     from helper.vocabulary import bp as vocabulary_bp
-    app.register_blueprint(vocabulary_bp, url_prefix="/vocab")
+    app.register_blueprint(vocabulary_bp, url_prefix="/vocabulary")
 
     return app
+
 
 from helper import models
