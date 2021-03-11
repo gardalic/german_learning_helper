@@ -38,35 +38,42 @@ class Entry(db.Model):
     def __str__(self) -> str:
         return f"{self.entry}"
 
-    def get_entries( # looks bad, black formatter sugesstion
-        self,
+    @classmethod
+    def get_entries(  # looks bad, black formatter sugesstion
+        cls,
         lesson_start=None,
         lesson_end=None,
         e_type=["phrase", "misc", "noun"],
         lst=True,
-    ) -> list:  
-        """ Returns a list of entries, not sorted. Can be limited by session or type. """
+    ) -> list:
+        """ Returns a list of entries, or query object, not sorted. Can be limited by session or type. """
 
         beginning = (
-            lesson_start if lesson_start else Lesson.query(func.max(Lesson.sequence_id))
+            lesson_start
+            if lesson_start
+            else db.session.query(func.min(Lesson.sequence_id)).first()[0]
         )
-        end = lesson_end if lesson_end else Lesson.query(func.max(Lesson.sequence_id))
+        end = (
+            lesson_end
+            if lesson_end
+            else db.session.query(func.max(Lesson.sequence_id)).first()[0]
+        )
 
         # offloaded logic to DB, test if it is better to do it in flask
-        entry_list = self.query.filter(
-            self.lesson_id >= beginning,
-            self.lesson_id <= end,
-            self.e_type.in_(e_type),
-        ).all()
-        return entry_list
+        entry_obj = cls.query.filter(
+            cls.lesson_id >= beginning,
+            cls.lesson_id <= end,
+            cls.e_type.in_(e_type),
+        )
+        # Return query object for pagination
+        return entry_obj.all() if lst else entry_obj
 
     def format_entry(self) -> dict:
-        """ Returns formatted entry for display. Input should be an Entry object. """
-        if isinstance(self, Entry):
-            if self.e_type == "noun":
-                return {
-                    "entry": f"{self.article} {self.entry}, die {self.plural}",
-                    "translation": self.translation, "base": self.entry
-                }
-            return {"entry": self, "translation": self.translation, "base": None}
-        raise TypeError("Not an <Entry> object")
+        """ Returns dict that is entry formatted for display. """
+        if self.e_type == "noun":
+            return {
+                "entry": f"{self.article} {self.entry}, die {self.plural}",
+                "translation": self.translation,
+                "base": self.entry,
+            }
+        return {"entry": self, "translation": self.translation, "base": None}

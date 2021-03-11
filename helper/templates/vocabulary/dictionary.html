@@ -16,4 +16,17 @@
     </tr>
     {% endfor %}
 </table>
+<hr>
+<span><a href="{{ first_url }}">First</a></span>
+{% if prev_url %}
+<span><a href="{{ prev_url }}"><<</a></span>
+{% else %}
+<span><a href="#"><strike><<</strike></a></span>
+{% endif %}
+{% if next_url %}
+<span><a href="{{ next_url }}">>></a></span>
+{% else %}
+<span><a href="#"><strike>>></strike></a></span>
+{% endif %}
+<span><a href="{{ last_url }}">Last</a></span>
 {% endblock %}
