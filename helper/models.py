@@ -1,5 +1,5 @@
 from helper import db
-from sqlalchemy import func
+from sqlalchemy import func, desc
 
 
 class Lesson(db.Model):
@@ -45,6 +45,7 @@ class Entry(db.Model):
         lesson_end=None,
         e_type=["phrase", "misc", "noun"],
         lst=True,
+        sorting=None,
     ) -> list:
         """ Returns a list of entries, or query object, not sorted. Can be limited by session or type. """
 
@@ -65,7 +66,12 @@ class Entry(db.Model):
             cls.lesson_id <= end,
             cls.e_type.in_(e_type),
         )
-        # Return query object for pagination
+
+        # Idea - come back later, see if this could be a decorator
+        if sorting == "entry asc":
+            entry_obj = entry_obj.order_by(cls.entry)
+        elif sorting == "entry desc":
+            entry_obj = entry_obj.order_by(desc(cls.entry))
         return entry_obj.all() if lst else entry_obj
 
     def format_entry(self) -> dict:

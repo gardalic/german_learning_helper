@@ -4,10 +4,11 @@
 <div class="dict-filters">
     <form action="" method="POST" novalidate>
         <p>
-            <span class="nouns">{{ form.noun.label }} {{ form.noun() }}</span>
-            <span class="phrases">{{ form.phrase.label }} {{ form.phrase() }}</span>
-            <span class="misc">{{ form.misc.label }} {{ form.misc() }}</span>
-            <span class="submit">{{ form.submit() }}</span>
+            <span class="nouns"> {{ form.noun() }} {{ form.noun.label }} </span>
+            <span class="phrases"> {{ form.phrase() }} {{ form.phrase.label }}</span>
+            <span class="misc"> {{ form.misc() }} {{ form.misc.label }}</span>
+            <span class="sorting"> {{ form.sorting.label }} {{ form.sorting() }}</span>
+            <span class="submit"> {{ form.submit() }}</span>
         </p>
     </form>
 </div>
