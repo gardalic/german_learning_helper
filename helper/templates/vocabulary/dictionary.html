@@ -1,32 +1,48 @@
 {% extends "base.html" %}
 {% block app_content %}
 <h1>Dictionary</h1>
+<div class="dict-filters">
+    <form action="" method="POST" novalidate>
+        <p>
+            <span class="nouns">{{ form.noun.label }} {{ form.noun() }}</span>
+            <span class="phrases">{{ form.phrase.label }} {{ form.phrase() }}</span>
+            <span class="misc">{{ form.misc.label }} {{ form.misc() }}</span>
+            <span class="submit">{{ form.submit() }}</span>
+        </p>
+    </form>
+</div>
 <hr>
-<table>
-    <tr>
-        <th style="text-align: left;">Entry</th>
-        <th style="text-align: left;">Translation</th>
-        <th style="text-align: left;">Base (nouns only)</th>
-    </tr>
-    {% for entry in entries %}
-    <tr>
-        <td>{{ entry["entry"] }}</td>
-        <td>{{ entry["translation"] }}</td>
-        <td>{{ entry["base"] }}</td>
-    </tr>
-    {% endfor %}
-</table>
-<hr>
-<span><a href="{{ first_url }}">First</a></span>
-{% if prev_url %}
-<span><a href="{{ prev_url }}"><<</a></span>
-{% else %}
-<span><a href="#"><strike><<</strike></a></span>
-{% endif %}
-{% if next_url %}
-<span><a href="{{ next_url }}">>></a></span>
-{% else %}
-<span><a href="#"><strike>>></strike></a></span>
-{% endif %}
-<span><a href="{{ last_url }}">Last</a></span>
+<div class="word-table">
+    <table>
+        <tr>
+            <th style="text-align: left;">Entry</th>
+            <th style="text-align: left;">Translation</th>
+            <th style="text-align: left;">Base (nouns only)</th>
+        </tr>
+        {% for entry in entries %}
+        <tr>
+            <td style="padding-right: 10px;">{{ entry["entry"] }}</td>
+            <td style="padding-right: 10px;">{{ entry["translation"] }}</td>
+            <td style="padding-right: 10px;">{{ entry["base"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <hr>
+</div>
+<div class="navigation">
+    <span><a href="{{ first_url }}">First</a></span>
+    {% if prev_url %}
+    <span><a href="{{ prev_url }}">
+            << </a></span>
+    {% else %}
+    <span><a href="#"><s>
+                << </s></a></span>
+    {% endif %}
+    {% if next_url %}
+    <span><a href="{{ next_url }}">>></a></span>
+    {% else %}
+    <span><a href="#"><s>>></s></a></span>
+    {% endif %}
+    <span><a href="{{ last_url }}">Last</a></span>
+</div>
 {% endblock %}
