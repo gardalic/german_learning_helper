@@ -66,8 +66,7 @@ class Entry(db.Model):
             cls.lesson_id <= end,
             cls.e_type.in_(e_type),
         )
-
-        # Idea - come back later, see if this could be a decorator
+        
         if sorting == "entry asc":
             entry_obj = entry_obj.order_by(cls.entry)
         elif sorting == "entry desc":
@@ -75,11 +74,17 @@ class Entry(db.Model):
         return entry_obj.all() if lst else entry_obj
 
     def format_entry(self) -> dict:
-        """ Returns dict that is entry formatted for display. """
+        """ Returns dict that is entry formatted for display in the dictionary. """
         if self.e_type == "noun":
             return {
+                "id": self.id,
                 "entry": f"{self.article} {self.entry}, die {self.plural}",
                 "translation": self.translation,
                 "base": self.entry,
             }
-        return {"entry": self, "translation": self.translation, "base": None}
+        return {
+            "id": self.id,
+            "entry": self,
+            "translation": self.translation,
+            "base": None,
+        }

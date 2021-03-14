@@ -2,13 +2,13 @@
 {% block app_content %}
 <h1>Dictionary</h1>
 <div class="dict-filters">
-    <form action="" method="POST" novalidate>
+    <form action="" method="GET" novalidate>
         <p>
-            <span class="nouns"> {{ form.noun() }} {{ form.noun.label }} </span>
-            <span class="phrases"> {{ form.phrase() }} {{ form.phrase.label }}</span>
-            <span class="misc"> {{ form.misc() }} {{ form.misc.label }}</span>
-            <span class="sorting"> {{ form.sorting.label }} {{ form.sorting() }}</span>
-            <span class="submit"> {{ form.submit() }}</span>
+            <span> {{ form.noun() }} {{ form.noun.label }} </span>
+            <span> {{ form.phrase() }} {{ form.phrase.label }}</span>
+            <span> {{ form.misc() }} {{ form.misc.label }}</span>
+            <span> {{ form.sorting.label }} {{ form.sorting() }}</span>
+            <span> {{ form.submit() }}</span>
         </p>
     </form>
 </div>

@@ -1,53 +1,76 @@
-from flask import render_template, request, url_for, current_app
+from flask import render_template, request, url_for, current_app, redirect
 from helper.vocabulary import bp
 from helper.vocabulary.forms import TypeSelectors
 from helper.models import Entry
-
-type_set = {"phrase", "misc", "noun"}
 
 
 @bp.route("/dictionary", methods=["POST", "GET"])
 def dictionary():
     form = TypeSelectors()
-    sorting = request.args.get("sorting", None, type=str)
-    page = request.args.get("page", 1, type=int)
+    args = request.args
+    sorting = args.get("sorting", type=str)
+    page = args.get("page", 1, type=int)
 
-    if form.is_submitted():
-        if not form.noun.data:
-            type_set.discard("noun")
-        else:
-            type_set.add("noun")
-        if not form.phrase.data:
-            type_set.discard("phrase")
-        else:
-            type_set.add("phrase")
-        if not form.misc.data:
-            type_set.discard("misc")
-        else:
-            type_set.add("misc")
-        sorting = form.sorting.data
-    elif request.method == "GET":
-        # Persist form values after next page GET request
-        form.noun.data = True if "noun" in type_set else False
-        form.phrase.data = True if "phrase" in type_set else False
-        form.misc.data = True if "misc" in type_set else False
-        form.sorting.data = sorting
+    noun = args.get("noun", type=str)
+    phrase = args.get("phrase", type=str)
+    misc = args.get("misc", type=str)
+
+    type_set = []
+
+    if noun == "y":
+        type_set.append("noun")
+    else:
+        noun = "n"
+        form.noun.data = False
+    if phrase == "y":
+        type_set.append("phrase")
+    else:
+        phrase = "n"
+        form.phrase.data = False
+    if misc == "y":
+        type_set.append("misc")
+    else:
+        misc = "n"
+        form.misc.data = False
 
     entries = Entry.get_entries(e_type=type_set, lst=False, sorting=sorting).paginate(
         page, current_app.config["DICT_ITEMS_PER_PAGE"], False
     )
     next_url = (
-        url_for("vocab.dictionary", sorting=sorting, page=entries.next_num)
+        url_for(
+            "vocab.dictionary",
+            noun=noun,
+            phrase=phrase,
+            misc=misc,
+            sorting=sorting,
+            page=entries.next_num,
+        )
         if entries.has_next
         else None
     )
     prev_url = (
-        url_for("vocab.dictionary", sorting=sorting, page=entries.prev_num)
+        url_for(
+            "vocab.dictionary",
+            noun=noun,
+            phrase=phrase,
+            misc=misc,
+            sorting=sorting,
+            page=entries.prev_num,
+        )
         if entries.has_prev
         else None
     )
-    first_url = url_for("vocab.dictionary", sorting=sorting, page=1)
-    last_url = url_for("vocab.dictionary", sorting=sorting, page=entries.pages)
+    first_url = url_for(
+        "vocab.dictionary", noun=noun, phrase=phrase, misc=misc, sorting=sorting, page=1
+    )
+    last_url = url_for(
+        "vocab.dictionary",
+        noun=noun,
+        phrase=phrase,
+        misc=misc,
+        sorting=sorting,
+        page=entries.pages,
+    )
 
     form_entries = [e.format_entry() for e in entries.items]
 
@@ -61,4 +84,7 @@ def dictionary():
         last_url=last_url,
         form=form,
         sorting=sorting,
+        noun=noun,
+        phrase=phrase,
+        misc=misc,
     )
