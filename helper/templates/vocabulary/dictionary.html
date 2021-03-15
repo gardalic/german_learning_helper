@@ -13,37 +13,41 @@
     </form>
 </div>
 <hr>
-<div class="word-table">
-    <table>
-        <tr>
-            <th style="text-align: left;">Entry</th>
-            <th style="text-align: left;">Translation</th>
-            <th style="text-align: left;">Base (nouns only)</th>
-        </tr>
-        {% for entry in entries %}
-        <tr>
-            <td style="padding-right: 10px;">{{ entry["entry"] }}</td>
-            <td style="padding-right: 10px;">{{ entry["translation"] }}</td>
-            <td style="padding-right: 10px;">{{ entry["base"] }}</td>
-        </tr>
-        {% endfor %}
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Entry</th>
+                <th scope="col">Translation</th>
+                <th scope="col">Base (nouns only)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in entries %}
+            <tr>
+                <td>{{ entry["entry"] }}</td>
+                <td>{{ entry["translation"] }}</td>
+                <td>{{ entry["base"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
     <hr>
 </div>
-<div class="navigation">
-    <span><a href="{{ first_url }}">First</a></span>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="{{ first_url }}">First</a></li>
     {% if prev_url %}
-    <span><a href="{{ prev_url }}">
-            << </a></span>
+        <li class="page-item"><a class="page-link" href="{{ prev_url }}">&larr;</a></li>
     {% else %}
-    <span><a href="#"><s>
-                << </s></a></span>
+        <li class="page-item disabled"><a class="page-link" href="#">&larr;</a></li>
     {% endif %}
     {% if next_url %}
-    <span><a href="{{ next_url }}">>></a></span>
+        <li class="page-item"><a class="page-link" href="{{ next_url }}">&rarr;</a></li>
     {% else %}
-    <span><a href="#"><s>>></s></a></span>
+        <li class="page-item disabled"><a class="page-link" href="#">&rarr;</a></li>
     {% endif %}
-    <span><a href="{{ last_url }}">Last</a></span>
-</div>
+    <li class="page-item"><a class="page-link" href="{{ last_url }}">Last</a></li>
+  </ul>
+</nav>
 {% endblock %}

@@ -13,4 +13,4 @@ class Config(object):
         os.environ.get("DATABASE_URL") or "sqlite:///" + os.path.join(basedir, 'g_helper.db')
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    DICT_ITEMS_PER_PAGE = 25
+    DICT_ITEMS_PER_PAGE = 10

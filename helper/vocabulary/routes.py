@@ -4,7 +4,7 @@ from helper.vocabulary.forms import TypeSelectors
 from helper.models import Entry
 
 
-@bp.route("/dictionary", methods=["POST", "GET"])
+@bp.route("/dictionary")
 def dictionary():
     form = TypeSelectors()
     args = request.args
