@@ -17,8 +17,8 @@ def create_app(config_class=Config):
     from helper.main import bp as main_bp
     app.register_blueprint(main_bp)
 
-    from helper.vocabulary import bp as vocabulary_bp
-    app.register_blueprint(vocabulary_bp, url_prefix="/vocabulary")
+    from helper.dictionary import bp as dict_bp
+    app.register_blueprint(dict_bp, url_prefix="/dict")
 
     return app
 

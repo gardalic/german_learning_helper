@@ -67,9 +67,9 @@ class Entry(db.Model):
             cls.e_type.in_(e_type),
         )
         
-        if sorting == "entry asc":
+        if sorting == "asc":
             entry_obj = entry_obj.order_by(cls.entry)
-        elif sorting == "entry desc":
+        elif sorting == "desc":
             entry_obj = entry_obj.order_by(desc(cls.entry))
         return entry_obj.all() if lst else entry_obj
 

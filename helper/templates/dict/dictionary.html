@@ -1,16 +1,23 @@
 {% extends "base.html" %}
 {% block app_content %}
-<h1>Dictionary</h1>
-<div class="input-group input-group-sm">
+<header class="dictionary-header">
+    <br><h1>Dictionary</h1><br>
+</header>
+<div class="input-group input-group-sm" >
     <div class="input-group-prepend">
-        <input type="checkbox" aria-label="noun" id="noun" name="noun" onclick="checkClicked()" checked>
+        <input type="checkbox" aria-label="noun" id="noun" name="noun" onclick="checkValue()" checked>
         <label for="noun">nouns</label>
-        <input type="checkbox" aria-label="phrase" id="phrase" name="phrase" onclick="checkClicked()" checked>
+        <input type="checkbox" aria-label="phrase" id="phrase" name="phrase" onclick="checkValue()" checked>
         <label for="phrase">phrases</label>
-        <input type="checkbox" aria-label="misc" id="misc" name="misc" onclick="checkClicked()" checked>
+        <input type="checkbox" aria-label="misc" id="misc" name="misc" onclick="checkValue()" checked>
         <label for="misc">misc</label>
+        <select name="sorting" id="srt" onchange="checkValue()">
+            <option value="">-</option>
+            <option value="asc">asc</option>
+            <option value="desc">desc</option>
+        </select>
+        <label for="sorting">sorting</label>
     </div>
-    <!--sendData('')-->
     <h1 id="sample_text"></h1>
 </div>
 <hr>
@@ -35,7 +42,7 @@
     </table>
     <hr>
 </div>
-<nav aria-label="Page navigation example">
+<nav>
   <ul class="pagination">
     <li class="page-item"><a class="page-link" href="{{ first_url }}">First</a></li>
     {% if prev_url %}
@@ -54,33 +61,33 @@
 {% endblock %}
 {% block script %}
 <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    window.onload = setInitial();
+
     function setInitial() {
         // if one param is null, they all are
-        const urlParams = new URLSearchParams(window.location.search)
         if (urlParams.get("noun") === null) {
-            document.getElementById("noun").checked = true
-            document.getElementById("phrase").checked = true
-            document.getElementById("misc").checked = true
+            document.getElementById("noun").checked = true;
+            document.getElementById("phrase").checked = true;
+            document.getElementById("misc").checked = true;
+            checkValue();
         } else {
             // set the values passed from the backend
-            document.getElementById("noun").checked = urlParams.get("noun") === "false" ? false : true
-            document.getElementById("phrase").checked = urlParams.get("phrase")  === "false" ? false : true
-            document.getElementById("misc").checked = urlParams.get("misc")  === "false" ? false : true
-
+            document.getElementById("noun").checked = urlParams.get("noun") === "false" ? false : true;
+            document.getElementById("phrase").checked = urlParams.get("phrase")  === "false" ? false : true;
+            document.getElementById("misc").checked = urlParams.get("misc")  === "false" ? false : true;
+            document.getElementById("srt").value = urlParams.get("srt")
         }
     }
 
     function checkCBox(box) {
-        return document.getElementById(box).checked
+        return document.getElementById(box).checked;
     }
 
-    function checkClicked() {
-        // document.getElementById("sample_text").innerHTML = variable
-        const urlString = "?noun=" + checkCBox("noun") 
-            + "&phrase=" + checkCBox("phrase") 
-            + "&misc=" + checkCBox("misc") 
-            + "&page=1" // on change of filters, reset the page to 1
-        console.log(urlString)
+    function checkValue() {
+        // reset the page on filter/sort change
+        const urlString = `?noun=${checkCBox("noun")}&phrase=${checkCBox("phrase")}&misc=${checkCBox("misc")}&srt=${document.getElementById("srt").value}&page=1`
+        window.location.replace("{{ url_for('dict.dictionary') }}" + urlString);
     }
 </script>
 {% endblock %}
