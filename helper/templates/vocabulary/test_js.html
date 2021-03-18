@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block app_content %}
+<h1>Dictionary</h1>
+<div class="input-group input-group-sm">
+    <div class="input-group-prepend">
+        <input type="checkbox" aria-label="noun" id="noun" name="noun" onclick="checkClicked()" checked>
+        <label for="noun">nouns</label>
+        <input type="checkbox" aria-label="phrase" id="phrase" name="phrase" onclick="checkClicked()" checked>
+        <label for="phrase">phrases</label>
+        <input type="checkbox" aria-label="misc" id="misc" name="misc" onclick="checkClicked()" checked>
+        <label for="misc">misc</label>
+    </div>
+    <!--sendData('')-->
+    <h1 id="sample_text"></h1>
+</div>
+<hr>
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Entry</th>
+                <th scope="col">Translation</th>
+                <th scope="col">Base (nouns only)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in entries %}
+            <tr>
+                <td>{{ entry["entry"] }}</td>
+                <td>{{ entry["translation"] }}</td>
+                <td>{{ entry["base"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+</div>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="{{ first_url }}">First</a></li>
+    {% if prev_url %}
+        <li class="page-item"><a class="page-link" href="{{ prev_url }}">&larr;</a></li>
+    {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">&larr;</a></li>
+    {% endif %}
+    {% if next_url %}
+        <li class="page-item"><a class="page-link" href="{{ next_url }}">&rarr;</a></li>
+    {% else %}
+        <li class="page-item disabled"><a class="page-link" href="#">&rarr;</a></li>
+    {% endif %}
+    <li class="page-item"><a class="page-link" href="{{ last_url }}">Last</a></li>
+  </ul>
+</nav>
+{% endblock %}
+{% block script %}
+<script>
+    function setInitial() {
+        // if one param is null, they all are
+        const urlParams = new URLSearchParams(window.location.search)
+        if (urlParams.get("noun") === null) {
+            document.getElementById("noun").checked = true
+            document.getElementById("phrase").checked = true
+            document.getElementById("misc").checked = true
+        } else {
+            // set the values passed from the backend
+            document.getElementById("noun").checked = urlParams.get("noun") === "false" ? false : true
+            document.getElementById("phrase").checked = urlParams.get("phrase")  === "false" ? false : true
+            document.getElementById("misc").checked = urlParams.get("misc")  === "false" ? false : true
+
+        }
+    }
+
+    function checkCBox(box) {
+        return document.getElementById(box).checked
+    }
+
+    function checkClicked() {
+        // document.getElementById("sample_text").innerHTML = variable
+        const urlString = "?noun=" + checkCBox("noun") 
+            + "&phrase=" + checkCBox("phrase") 
+            + "&misc=" + checkCBox("misc") 
+            + "&page=1" // on change of filters, reset the page to 1
+        console.log(urlString)
+    }
+</script>
+{% endblock %}
