@@ -63,14 +63,20 @@ class LoadEntries:
 
 
 if __name__ == "main":
-    pass
+    l = LoadLessons("./helper/vocabulary/initial_load/lessons.json")
+    l.read_lessons()
+    l.insert_lessons()
+    e = LoadEntries("./helper/dictionary/initial_load/nouns.json", "./helper/dictionary/initial_load/phrases.json")
+    e.read_entries()
+    e.insert_entries()
+    
     # flask shell commands to load scraped files
 
     # from helper import db
-    # from helper.vocabulary.load_from_file import LoadLessons, LoadEntries
+    # from helper.dictionary.initial_load.load_from_file import LoadEntries, LoadLessons
     # l = LoadLessons("./helper/vocabulary/initial_load/lessons.json")
     # l.read_lessons()
     # l.insert_lessons()
-    # e = LoadEntries("./helper/vocabulary/initial_load/nouns.json", "./helper/vocabulary/initial_load/phrases. json")
+    # e = LoadEntries("./helper/dictionary/initial_load/nouns.json", "./helper/dictionary/initial_load/phrases.json")
     # e.read_entries()
     # e.insert_entries()

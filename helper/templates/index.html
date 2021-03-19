@@ -1,7 +1,25 @@
 {% extends "base.html" %}
+{% block style_block %}{% endblock %}
 {% block app_content %}
-<div class="page-header">
-    <h1>German Language Learning Helper</h1>
-    <p class="lead">Site to help with the DW course <em>Nico's Weg</em></p>
+<div class="jumbotron jumbotron-fluid m-3">
+    <div class="container">
+        <h1 class="display-2"><b>German Learning Helper</b></h1>
+        <p class="lead">Site to help with the DW course <em><b><a href="https://learngerman.dw.com/en/overview" target="_blank">Nico's Weg</a></b></em></p>
+    </div>
+</div>
+<div class="index-card">
+    <a class="card-link" href="{{ url_for('dict.dictionary') }}">
+        <div class="row border shadow m-4 overflow-hidden my-card">
+            <div class="col p-4">
+                <h2 class="mb-0 p-2">Dictionary</h2>
+                <p class="card-text mb-auto p-2">List of all the vocabulary entries in the A1 course</p>
+            </div>
+            <div class="col-auto d-flex-reverse d-lg-block p-0 hidden-xs">
+                <img class="hidden-xs" src="{{ url_for('static', filename='open-dictionary-7429.jpg') }}" width="350" height="150" alt="Dictionary image">
+            </div>
+        </div>
+    </a>
 </div>
 {% endblock %}
+
+<!-- style="text-decoration: none;" -->

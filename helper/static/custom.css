@@ -1,0 +1,53 @@
+.card-link {
+    text-decoration: none;
+    color: black;
+}
+
+.card-link:hover{
+    color: #DD0000;
+}
+
+.navbar-dark .navbar-brand {
+    color: #FFCE00;
+}
+
+.navbar-dark:hover .navbar-brand:hover, .nav-link:hover{
+    color: #DD0000;
+}
+
+.my-card {
+    background-color: #FFCE00;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #FFCE00;
+}
+
+.navbar-dark:hover .nav-link:hover {
+    color: #DD0000;
+}
+
+a:hover {
+    color: #DD0000;
+}
+
+.pagination .page-item .page-link {
+    color: black;
+}
+
+.pagination .page-item :hover {
+    background-color: #FFCE00;
+}
+
+.table-hover tbody tr:hover td {
+    background-color: #FFCE00;
+}
+
+a {
+    color: #DD0000;
+    text-decoration-line: dashed;
+}
+
+a:hover {
+    color: #FFCE00;
+}

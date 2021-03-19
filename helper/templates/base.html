@@ -11,6 +11,8 @@
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom.css') }}">
+    {% block style_block %}{% endblock %}
     {% block title %}
     <title>
         {% if title %}GLH - {{ title }}
@@ -18,14 +20,13 @@
         {% endif %}
     </title>
     {% endblock %}
-    {% block style_block %}{% endblock %}
 </head>
 
 <body>
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url_for('main.index') }}">German Learning helper</a>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}"><b>German Learning helper</b></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -37,7 +38,7 @@
                     </div>
                 </div>
             </div>
-        </nav><br>
+        </nav>
     </div>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
